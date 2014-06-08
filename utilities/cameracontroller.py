@@ -66,7 +66,7 @@ class CameraController(threading.Thread):
         elif image_type ==self.DIFFERENCE:
             return self.diff_frame
         else:
-            print "Error defining frame to be fetched!!!"
+            print("Error defining frame to be fetched!!!")
 
     def deactivate(self):
         """Deactivate camera"""

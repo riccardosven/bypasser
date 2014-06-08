@@ -18,6 +18,6 @@ cv2.waitKey(20)
 
 cup = Coffee('test')
 
-print cup.condition() # Returns if not between three and whatever...
+print(cup.condition()) # Returns if not between three and whatever...
 cup.show()
 

@@ -19,8 +19,8 @@ cv2.waitKey(20)
 fast = Fastest('test')
 
 fast.push((1,100))
-print fast.condition() # Returns true... is the fastest
+print(fast.condition()) # Returns true... is the fastest
 fast.push((1,49))
-print fast.condition() # Returns false... speed lower than before!
+print(fast.condition()) # Returns false... speed lower than before!
 fast.show()
 

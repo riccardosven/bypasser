@@ -18,7 +18,7 @@ cv2.waitKey(20)
 
 speed  = Speed('test')
 
-print speed.condition() # Returns true
+print(speed.condition()) # Returns true
 
 speed.push((1,422.22))
 speed.show()

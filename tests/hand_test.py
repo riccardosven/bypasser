@@ -18,6 +18,6 @@ cv2.waitKey(20)
 
 hand = Handwave('test')
 
-print hand.condition() # Returns if not between three and whatever...
+print(hand.condition()) # Returns if not between three and whatever...
 hand.show()
 

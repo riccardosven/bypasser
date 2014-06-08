@@ -69,7 +69,7 @@ class MotionDetector():
 
             self.pred_y = self.slope*self.t_out + self.intercept*np.ones(self.t_out.shape)
             self.y_dev = np.sqrt(np.sum((self.p_out-self.pred_y)**2))
-            #print self.y_dev
+            #print(self.y_dev)
 
     def detection(self):
         """True is a detection has occurred at least TRIGGER_TIME_THRESHOLD ago"""

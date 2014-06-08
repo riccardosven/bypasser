@@ -25,6 +25,6 @@ class Datalogger:
             self.iscow = 1
         else:
             self.iscow = 0
-        print 'bypasser',self.alarm_nr,'speed',self.slope,'error',self.std_dev,'timestamp',datetime.datetime.now(),'y_dev',self.y_dev
+        print('bypasser',self.alarm_nr,'speed',self.slope,'error',self.std_dev,'timestamp',datetime.datetime.now(),'y_dev',self.y_dev)
         with open(self.logfile,'a') as log_file:
             log_file.write('{},{},{:.3f},{:.3f},{:.3f}\n'.format(datetime.datetime.now(),self.iscow,self.slope,self.y_dev,self.std_dev))

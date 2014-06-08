@@ -27,7 +27,7 @@ class Speed:
     def push(self,data):
         self.speed = data[1]
         self.speed = self.SPEED_CONVERSION*self.speed # Convert from px/sec to km/h
-        print self.speed
+        print(self.speed)
         return True
 
     def condition(self):
