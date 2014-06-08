@@ -1,0 +1,7 @@
+echo "Cleaning compiled python files..."
+find ./ -name '*.pyc' -exec rm -rf {} \;
+echo "Cleaning swap files..."
+find ./ -name '*.sw?' -exec rm -rf {} \;
+echo "Cleaning tilde files.."
+find ./ -name '*~' -exec rm -rf {} \;
+echo "Complete!"

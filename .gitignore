@@ -1,0 +1,13 @@
+# Compiled python code
+*.pyc
+
+# Detection log
+detection_log.log
+
+# All captured images
+captured_images/*
+captured_plots/*
+
+# Temporary files and Vim swap files
+*~
+*.sw?
