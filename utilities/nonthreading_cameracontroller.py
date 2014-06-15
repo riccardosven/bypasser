@@ -37,6 +37,9 @@ class CameraController():
         self.frame_rate = 0
         self.tic = time()
 
+    def start(self):
+    	return True
+
     def update(self):
         """Activate camera thread"""
         # Framerate Estimation code snippet

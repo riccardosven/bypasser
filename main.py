@@ -49,7 +49,7 @@ fastest = Fastest('Display')
 effect_list = [cow, coffetime, fastest, speed, handwaves]
 
 # Start camera controller thread
-camera.start()
+# camera.start()
 
 key = -1
 #while key != 27: # 1048603
