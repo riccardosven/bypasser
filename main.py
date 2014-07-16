@@ -46,7 +46,7 @@ coffetime = Coffee('Display')
 fastest = Fastest('Display')
 
 # List the effects, in order of precedence
-effect_list = [cow, coffetime, fastest, speed, handwaves]
+effect_list = [cow, fastest, coffetime, speed, handwaves]
 
 # Start camera controller thread
 # camera.start()
