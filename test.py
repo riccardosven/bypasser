@@ -11,6 +11,6 @@
 
 from utilities.robot_hand import RobotHand
 
-serial = RobotHand('/dev/ttyVirtualS1',9600)
+serial = RobotHand('/dev/pts/4',19200)
 
 serial.send('test')
