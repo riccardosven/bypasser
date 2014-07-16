@@ -26,7 +26,7 @@ class RobotHand:
         except:
             print('Cannot write to Arduino')
 
-    def release(self):
+    def close(self):
         try:
             self.port.close()
         except:

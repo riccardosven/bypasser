@@ -13,4 +13,6 @@ from utilities.robot_hand import RobotHand
 
 serial = RobotHand('/dev/ttyACM0',9600)
 
-serial.send('test')
+serial.send('r')
+
+serial.close()
