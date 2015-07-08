@@ -15,7 +15,7 @@ from utilities.sound import Sound
 class Speed:
 
     GREEN_SPEED = 5
-    SPEED_CONVERSION = 0.015517241
+    SPEED_CONVERSION = 0.014794541
 
     def __init__(self,display):
         self.output_port = display
@@ -25,9 +25,8 @@ class Speed:
 
 
     def push(self,data):
-        self.speed = data[1]
-        self.speed = self.SPEED_CONVERSION*self.speed # Convert from px/sec to km/h
-        print(self.speed)
+        self.speed = data[0]
+	self.speed = self.SPEED_CONVERSION*self.speed # Convert from px/sec to km/h
         return True
 
     def condition(self):

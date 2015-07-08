@@ -21,9 +21,9 @@ import numpy as np
 
 class MotionDetector():
     """Motion Detector class, gets images and performs a regression"""
-    DETECTION_TIME = 1 # Linear regression time
-    MOVING_WINDOW_LENGTH = 100 # Number of samples for regression window
-    AVERAGE_WINDOW_LENGTH = 40 # Number of samples in moving average window
+    DETECTION_TIME = .7 # Linear regression time
+    MOVING_WINDOW_LENGTH = 40 # Number of samples for regression window
+    AVERAGE_WINDOW_LENGTH = 20 # Number of samples in moving average window
     MINIMUM_REGRESSION_SAMPLES = 5 # Samples skipped before starting regression
     MEAN_THRESHOLD = 0.3 # Minimum change in image that will trigger detection
     DEVIATION_THRESHOLD = 10 # Maximum deviation from linear behaviour accepted
@@ -50,7 +50,7 @@ class MotionDetector():
 
         # Detection window output
         #self.gray_frame[self.mom_y:self.mom_y+5,self.mom_x:self.mom_x+5] = 255
-        #cv2.imshow('preview',self.gray_frame)
+        cv2.imshow('preview',self.gray_frame)
 
         # Update the moving regression window with the new measurements
         self.regression_window.push(self.mom_x)
@@ -63,7 +63,7 @@ class MotionDetector():
 
             ############################################################
             ############### Dirty hack! Flipped webcam #################
-            self.slope = -self.slope 
+            ## self.slope = -self.slope 
             ############################################################
             ############################################################
 

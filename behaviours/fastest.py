@@ -26,7 +26,7 @@ class Fastest:
         self.max_speed_today = 0
 
     def push(self,data):
-        self.speed = data[1]
+        self.speed = data[0]
         self.speed = self.SPEED_CONVERSION*self.speed # Convert from px/sec to km/h
         return True
 

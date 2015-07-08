@@ -27,7 +27,7 @@ class CameraController(threading.Thread):
         """Activate Thread with camera control"""
         super(CameraController,self).__init__()
         self.active = True # Camera activation control
-        self.stream = cv2.VideoCapture(0) # Open video stream
+        self.stream = cv2.VideoCapture(1) # Open video stream
         while not self.stream.isOpened():
             pass
         _,self.image = self.stream.read()# Save the first frame

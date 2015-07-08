@@ -25,7 +25,7 @@ class Graphsave:
         self.axis = self.fig.add_subplot(111)
         self.line = self.axis.plot(x,y)
 
-        self.regressionline = self.axis.plot([0,self.PLOT_WIDTH], [intercept,-self.PLOT_WIDTH*slope + intercept])
+        self.regressionline = self.axis.plot([0,self.PLOT_WIDTH], [intercept,self.PLOT_WIDTH*slope + intercept])
         plt.xlim((0,self.PLOT_WIDTH))
         plt.ylim((0,self.PLOT_HEIGHT))
 

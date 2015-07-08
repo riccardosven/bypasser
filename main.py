@@ -68,7 +68,7 @@ while key == -1: # 1048603
     if detector.detection():
         # ...cycle through the effects...
         for effect in effect_list:
-            effect.push(detector_data)
+	    effect.push(detector_data)
             # ...checking if the conditions for one is true...
             if effect.condition():
                 imageprinter.save(camera_frame)
