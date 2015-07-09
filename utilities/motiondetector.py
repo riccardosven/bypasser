@@ -30,15 +30,20 @@ class MotionDetector():
     Y_THRESHOLD = 90 # Maximum deviation from linear behaviour accepted
     TRIGGER_TIME_THRESHOLD = 5 # Timeout between detection, in seconds
     SPEED_THRESHOLD = 115 # Minimum speed that will trigger detection, in px/sec
+    REF_IM_UPDATE_TIME = 3 # time where little change happens until reference image is updated
+    REF_IM_WINDOW_LENGTH = 200
+    REF_IM_THRESHOLD = 30000
     
-    def __init__(self):
+    def __init__(self,camera):
         self.regression_window = MovingWindow(self.MOVING_WINDOW_LENGTH) #Start a moving window for the regression
+        self.time_change_window = MovingWindow(self.REF_IM_WINDOW_LENGTH)
         self.change_window = np.zeros(self.AVERAGE_WINDOW_LENGTH) # Start the moving average window for the motion detections
         self.last_trigger_time = 0
+        self.camera = camera
 
-    def update(self,frame):
+    def update(self,frame,diff_frame):
         """Update the detection status with a new image"""
-        self.gray_frame = np.uint8(np.mean(frame,2))
+        self.gray_frame = np.uint8(np.mean(diff_frame,2))
         self.image_moments = moments(self.gray_frame)
 
         # Update the moving average window
@@ -50,13 +55,18 @@ class MotionDetector():
 
         # Detection window output
         #self.gray_frame[self.mom_y:self.mom_y+5,self.mom_x:self.mom_x+5] = 255
-        cv2.imshow('preview',self.gray_frame)
+        #cv2.imshow('preview',self.gray_frame)
 
         # Update the moving regression window with the new measurements
         self.regression_window.push(self.mom_x)
-
+        self.time_change_window.push(self.image_moments['m00'])
+        
         # Update regressor variables
         self.t_out,self.p_out,self.n_out = self.regression_window.fetch(self.DETECTION_TIME)
+        _,self.change_out,_ = self.time_change_window.fetch(self.REF_IM_UPDATE_TIME)
+        if np.max(self.change_out) < self.REF_IM_THRESHOLD:
+          self.camera.update_reference_frame(frame)
+        print np.max(self.change_out)
 
         if len(self.t_out) > self.MINIMUM_REGRESSION_SAMPLES:
             self.slope,self.intercept ,_,_,self.std_dev = stats.linregress(self.t_out,self.p_out)

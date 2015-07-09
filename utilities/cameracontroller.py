@@ -13,6 +13,7 @@ import cv2
 import numpy as np
 import threading
 from time import time
+import copy
 
 
 class CameraController(threading.Thread):
@@ -27,13 +28,15 @@ class CameraController(threading.Thread):
         """Activate Thread with camera control"""
         super(CameraController,self).__init__()
         self.active = True # Camera activation control
-        self.stream = cv2.VideoCapture(1) # Open video stream
+        self.stream = cv2.VideoCapture(0) # Open video stream
         while not self.stream.isOpened():
             pass
         _,self.image = self.stream.read()# Save the first frame
         cv2.waitKey(10)
         self.frame = self.image[196:304,:546,:]# Cropped frame
         self.diff_frame = self.frame
+        self.reference_frame = copy.deepcopy(self.frame)
+        self.abs_diff_frame = copy.deepcopy(self.frame)
         self.tic = time()
         self.frame_rate = 0
 
@@ -56,6 +59,7 @@ class CameraController(threading.Thread):
             self.frame = self.image[196:304,:546,:]# Cropped frame
             cv2.absdiff(self.frame,self.prevframe,self.diff_frame)
             self.diff_frame = cv2.threshold(self.diff_frame,self.SINGLE_PX_THRESHOLD,255,cv2.THRESH_TOZERO)[1]
+            cv2.absdiff(self.frame,self.reference_frame,self.abs_diff_frame)
             
     def fetch(self,image_type):
         """Return IMAGE, FRAME or DIFFERENCE"""
@@ -65,6 +69,8 @@ class CameraController(threading.Thread):
             return self.frame
         elif image_type ==self.DIFFERENCE:
             return self.diff_frame
+        elif image_type == self.ABS_DIFFERENCE:
+            return self.abs_diff_frame
         else:
             print("Error defining frame to be fetched!!!")
 
@@ -75,3 +81,9 @@ class CameraController(threading.Thread):
     def framerate(self):
         """Return framerate [float]"""
         return self.frame_rate
+        
+    def update_reference_frame(self,image):
+      
+      self.reference_frame = image[196:304,:546,:]
+      
+      return

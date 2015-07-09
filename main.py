@@ -22,16 +22,17 @@ from behaviours.coffee import Coffee
 from behaviours.speed import Speed
 from behaviours.fastest import Fastest
 import sys
-from cv2 import namedWindow, waitKey 
+from cv2 import namedWindow, waitKey, imshow
 from time import sleep
 
 # Initialize a new motion controller object
 camera = CameraController()
-detector = MotionDetector()
+detector = MotionDetector(camera)
 
 # Start main output display
 namedWindow('Display')
 waitKey(20)
+namedWindow('Debug')
 
 # Start the dataloggers
 log = Datalogger('detection_log.log')
@@ -60,15 +61,18 @@ while key == -1: # 1048603
     sys.stdout.flush()
     difference_image = camera.fetch(camera.DIFFERENCE)
     camera_frame = camera.fetch(camera.IMAGE)
-    detector.update(difference_image)
+    detector.update(camera_frame,difference_image)
     detector_data = detector.data()
     detector_dump = detector.dump()
+    
+    abs_difference_image = camera.fetch(camera.ABS_DIFFERENCE)
+    imshow('Debug',abs_difference_image)
 
     # If we have a detector...
     if detector.detection():
         # ...cycle through the effects...
         for effect in effect_list:
-	    effect.push(detector_data)
+            effect.push(detector_data)
             # ...checking if the conditions for one is true...
             if effect.condition():
                 imageprinter.save(camera_frame)

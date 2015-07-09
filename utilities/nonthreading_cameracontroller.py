@@ -3,7 +3,7 @@
 ##
 ## nonthreading_cameracontrol.py -- part of the bypasser program
 ##
-## Copyright (c) 2014 Riccardo Sven Risuleo 
+## Copyright (c) 2014 Riccardo Sven Risuleo
 ##
 ## This software may be modified and distributed under the terms
 ## of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,7 @@
 import cv2
 import numpy as np
 from time import time
+import copy
 
 
 class CameraController():
@@ -22,6 +23,7 @@ class CameraController():
     IMAGE = 1
     FRAME = 2
     DIFFERENCE = 3
+    ABS_DIFFERENCE = 4
 
     def __init__(self):
         """Activate Thread with camera control"""
@@ -33,6 +35,10 @@ class CameraController():
         cv2.waitKey(10)
         self.frame = self.image[196:304,:546,:]# Cropped frame
         self.diff_frame = self.frame
+#        self.reference_frame = copy.deepcopy(self.frame)
+#        self.abs_diff_frame = copy.deepcopy(self.frame)
+        self.reference_frame = self.frame
+        self.abs_diff_frame = self.frame
         self.frame_count = 1 # Used for framerate estimation
         self.frame_rate = 0
         self.tic = time()
@@ -57,7 +63,9 @@ class CameraController():
         self.frame = self.image[196:304,:546,:]# Cropped frame
         cv2.absdiff(self.frame,self.prevframe,self.diff_frame)
         self.diff_frame = cv2.threshold(self.diff_frame,self.SINGLE_PX_THRESHOLD,255,cv2.THRESH_TOZERO)[1]
-    
+        self.abs_diff_frame = cv2.absdiff(self.frame,self.reference_frame)
+        self.abs_diff_frame = cv2.threshold(self.abs_diff_frame,self.SINGLE_PX_THRESHOLD,255,cv2.THRESH_TOZERO)[1]
+
     def fetch(self,image_type):
         """Return IMAGE, FRAME or DIFFERENCE"""
         if image_type == self.IMAGE:
@@ -66,6 +74,8 @@ class CameraController():
             return self.frame
         elif image_type ==self.DIFFERENCE:
             return self.diff_frame
+        elif image_type == self.ABS_DIFFERENCE:
+            return self.abs_diff_frame
         else:
             print('Error defining frame to be fetched!!!')
 
@@ -76,3 +86,9 @@ class CameraController():
     def framerate(self):
         """Return framerate [float]"""
         return self.frame_rate
+
+    def update_reference_frame(self,image):
+
+      self.reference_frame = image[196:304,:546,:]
+
+      return
